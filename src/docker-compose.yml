@@ -1,6 +1,4 @@
-﻿version: '3.4'
-
-networks:
+﻿networks:
   backend:
     name: backend
     external: true
@@ -11,15 +9,13 @@ services:
     image: bff_api
     build:
       context: .
-      dockerfile: BFF.Web.API/Dockerfile
+      dockerfile: BFF.Web.API/Development.Dockerfile
     ports:
       - "5030:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - /home/ellison/source/repos/egress-backend/src/egress_app/Egress.API/files:/files
     networks:
       - backend
