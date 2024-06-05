@@ -53,9 +53,10 @@ builder.Services.AddAuthentication(BEARER_AUTHENTICATION)
     .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>(BEARER_AUTHENTICATION, null);
 
 // Cors Configuration
-builder.Services.AddCors(o => o.AddPolicy("Policy", builder =>
+builder.Services.AddCors(o => o.AddPolicy("Policy", policy =>
 {
-    builder.AllowAnyOrigin()
+    policy
+        .WithOrigins("https://egress.planb.games", "http://egress.planb.games/")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .WithExposedHeaders(PAGINATION_HEADER_NAME);
@@ -84,7 +85,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("Policy");
-
 
 app.MapHealthChecks(HEALTH_CHECK_ROUTE);
 
