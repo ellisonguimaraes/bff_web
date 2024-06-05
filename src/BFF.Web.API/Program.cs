@@ -56,10 +56,9 @@ builder.Services.AddAuthentication(BEARER_AUTHENTICATION)
 builder.Services.AddCors(o => o.AddPolicy("Policy", policy =>
 {
     policy
-        .WithOrigins("https://egress.planb.games", "http://egress.planb.games/")
+        .AllowAnyOrigin()
         .AllowAnyMethod()
-        .AllowAnyHeader()
-        .WithExposedHeaders(PAGINATION_HEADER_NAME);
+        .AllowAnyHeader();
 }));
 
 
