@@ -53,16 +53,15 @@ builder.Services.AddAuthentication(BEARER_AUTHENTICATION)
     .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>(BEARER_AUTHENTICATION, null);
 
 // Cors Configuration
-builder.Services.AddCors(o => o.AddPolicy("Policy", policy =>
-{
-    policy
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-}));
-
+builder.Services.AddCors();
 
 var app = builder.Build();
+
+app.UseCors(opt => opt
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
 
 // Configure static files
 var completePath = Path.Combine(Path.GetPathRoot(Directory.GetCurrentDirectory())!, STATIC_FILE_LOCAL_FILES_PATH);
@@ -82,8 +81,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors("Policy");
 
 app.MapHealthChecks(HEALTH_CHECK_ROUTE);
 
