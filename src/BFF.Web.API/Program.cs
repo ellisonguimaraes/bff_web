@@ -59,7 +59,7 @@ var app = builder.Build();
 
 app.UseCors(opt => opt
     .AllowAnyMethod()
-    .AllowAnyHeader()
+    .AllowAnyHeader().WithExposedHeaders(PAGINATION_HEADER_NAME)
     .SetIsOriginAllowed(origin => true)
     .AllowCredentials());
 
