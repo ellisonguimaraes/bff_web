@@ -13,6 +13,7 @@ public class AdminController : ControllerBase
 {
     #region Constants
     private const string X_PAGINATION_HEADER = "X-Pagination";
+    private const string GET_PAGINATE_TESTIMONIES_ORDER_BY = "CreatedAt desc";
     #endregion
     
     private readonly IEgressApi _egressApi;
@@ -134,6 +135,40 @@ public class AdminController : ControllerBase
         return await HandleResponseAsync(response);
     }
     
+    [HttpGet]
+    [Route("testimony")]
+    public async Task<IActionResult> GetPaginateTestimoniesAsync(
+        [FromQuery(Name = "page_number")] int pageNumber,
+        [FromQuery(Name = "page_size")] int pageSize)
+    {
+        var response = await _egressApi.GetPaginateTestimoniesAsync(pageNumber, pageSize,
+            string.Empty, GET_PAGINATE_TESTIMONIES_ORDER_BY);
+
+        var paginationHeader =
+            response.Headers.FirstOrDefault(h => h.Key.Equals(X_PAGINATION_HEADER, StringComparison.OrdinalIgnoreCase));
+
+        Response.Headers.Add(paginationHeader.Key, paginationHeader.Value.FirstOrDefault());
+
+        return await HandleResponseAsync(response);
+    }
+    
+    [HttpGet]
+    [Route("highlights")]
+    public async Task<IActionResult> GetPaginateHighlightsAsync(
+        [FromQuery(Name = "page_number")] int pageNumber,
+        [FromQuery(Name = "page_size")] int pageSize)
+    {
+        var response = await _egressApi.GetPaginateHighlightsAsync(pageNumber, pageSize,
+            string.Empty, GET_PAGINATE_TESTIMONIES_ORDER_BY);
+
+        var paginationHeader =
+            response.Headers.FirstOrDefault(h => h.Key.Equals(X_PAGINATION_HEADER, StringComparison.OrdinalIgnoreCase));
+
+        Response.Headers.Add(paginationHeader.Key, paginationHeader.Value.FirstOrDefault());
+
+        return await HandleResponseAsync(response);
+    }
+    
     /// <summary>
     /// Read body message and build response
     /// </summary>
@@ -142,9 +177,7 @@ public class AdminController : ControllerBase
     private async Task<IActionResult> HandleResponseAsync(HttpResponseMessage httpResponseMessage)
     {
         var responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
-
         var deserializedBody = responseBody.DeserializeOrDefault<GenericHttpResponse<object>>();
-        
         return StatusCode((int)httpResponseMessage.StatusCode, deserializedBody);
     }
 }
