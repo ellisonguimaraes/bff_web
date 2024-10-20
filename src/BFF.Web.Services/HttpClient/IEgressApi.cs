@@ -99,4 +99,7 @@ public interface IEgressApi
     
     [Get("/api/v1/course")]
     Task<HttpResponseMessage> GetAllCoursesAsync();
+    
+    [Get("/api/v1/charts/views")]
+    Task<HttpResponseMessage> GetChartsByViewAsync([Header("views")] string views);
 }
