@@ -191,6 +191,14 @@ public class EgressController : ControllerBase
         return await HandleResponseAsync<object>(result);
     }
     
+    [HttpGet]
+    [Route("views")]
+    public async Task<IActionResult> ChartsByViewAsync([FromHeader(Name = "views")] string views)
+    {
+        var response = await _egressApi.GetChartsByViewAsync(views);
+        return await HandleResponseAsync<object>(response);
+    }
+    
     /// <summary>
     /// Read body message and build response
     /// </summary>

@@ -15,8 +15,7 @@ public class ChartsController : ControllerBase
     {
         _egressApi = egressApi;
     }
-
-
+    
     [HttpGet]
     [Route("views")]
     public async Task<IActionResult> ChartsByViewAsync([FromHeader(Name = "views")] string views)
