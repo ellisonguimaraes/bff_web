@@ -1,4 +1,5 @@
 ﻿using BFF.Web.Domain;
+using BFF.Web.Domain.HttpClient.Note;
 using BFF.Web.Domain.HttpClient.Testimony;
 using Refit;
 
@@ -102,4 +103,20 @@ public interface IEgressApi
     
     [Get("/api/v1/charts/views")]
     Task<HttpResponseMessage> GetChartsByViewAsync([Header("views")] string views);
+    
+    [Get("/api/v1/note/{id}")]
+    Task<HttpResponseMessage> GetNoteByIdAsync([AliasAs(ID)] string id);
+    
+    [Put("/api/v1/note/accept/{id}")]
+    Task<HttpResponseMessage> AcceptNoteAsync([AliasAs(ID)] string id);
+    
+    [Get("/api/v1/note/all")]
+    Task<HttpResponseMessage> GetPaginateNotePersonAsync(
+        [AliasAs(PAGE_NUMBER)] int pageNumber,
+        [AliasAs(PAGE_SIZE)] int pageSize,
+        [AliasAs(QUERY_STRING)] string query,
+        [AliasAs(ORDER_BY)] string orderByProperty);
+    
+    [Post("/api/v1/note")]
+    Task<HttpResponseMessage> CreateNoteAsync([Body] CreateNoteRequestApi request);
 }

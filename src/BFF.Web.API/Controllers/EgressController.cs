@@ -14,7 +14,6 @@ namespace BFF.Web.API;
 public class EgressController : ControllerBase
 {
     #region Constants
-
     private const string X_PAGINATION_HEADER = "X-Pagination";
     private const string GET_PAGINATE_TESTIMONIES_QUERY_STRING = "WasAccepted equal true";
     private const string GET_PAGINATE_TESTIMONIES_ORDER_BY = "CreatedAt desc";
